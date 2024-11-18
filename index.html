@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <title>castuns - Fashion Store</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: #ae7b48;
+        padding: 1rem 5%;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 150px;
+        height: auto;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #75512e;
+      }
+
+      /* Hamburger Icon */
+      .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        color: #ecf0f1;
+        cursor: pointer;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        display: none;
+        flex-direction: column;
+        background-color: #ae7b48;
+        padding: 1rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+      }
+
+      .mobile-menu a {
+        color: #ecf0f1;
+        text-decoration: none;
+        padding: 0.5rem 0;
+        display: block;
+        text-align: center;
+      }
+
+      .mobile-menu a:hover {
+        color: #75512e;
+      }
+
+      @media (max-width: 768px) {
+        .hamburger {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+        }
+        .mobile-menu.active {
+          display: flex;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("/Home.png") center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 0 1rem;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .cta-button {
+        padding: 1rem 2rem;
+        background-color: #ae7b48;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .cta-button:hover {
+        background-color: #75512e;
+      }
+
+      /* Featured Products */
+      .featured {
+        padding: 4rem 5%;
+        background-color: #f8f9fa;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #2c3e50;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .product-card {
+        background: rgb(246, 234, 217);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .product-img {
+        width: 40%;
+        height: 300px;
+        object-fit: cover;
+        margin-top: 1rem;
+      }
+
+      .product-info {
+        padding: 1rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .product-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: #50452c;
+      }
+
+      .product-price {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+
+      /* Categories Section */
+      .categories {
+        padding: 4rem 5%;
+      }
+
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .category-card {
+        position: relative;
+        height: 200px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .category-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .category-title {
+        position: absolute;
+        bottom: -20px; /* Mengatur posisi 10px dari bawah */
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      /* Footer */
+      .footer {
+        margin-top: 300px;
+        background-color: #382414;
+        color: white;
+        padding: 3rem 5%;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-section ul li a {
+        color: #ecf0f1;
+        text-decoration: none;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-links a {
+        color: white;
+        text-decoration: none;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+      }
+
+      /* CSS */
+      .category-slider {
+        display: none;
+        margin-top: 10px;
+      }
+
+      .product-card {
+        flex: 0 0 auto;
+        margin-right: 15px;
+        text-align: center;
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 600px; /* Set uniform height */
+        object-fit: cover; /* Ensures images cover the area without distortion */
+      }
+
+      .category-title {
+        margin-bottom: 20px;
+      }
+
+      /* Ensure the slider section has spacing at the top */
+      .category-content {
+        margin-top: 20px;
+      }
+
+      /* Hide categories initially */
+      .category-slider {
+        display: none;
+      }
+
+      /* Menjaga card tetap terpusat dan ukuran gambar sesuai */
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      /* Menetapkan ukuran gambar produk yang seragam */
+      .product-card img {
+        width: 500px;
+        height: 650px;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+
+      /* Menjaga kontainer kategori slider terpusat */
+      .category-slider .d-flex {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      /* Responsif untuk layar dengan lebar lebih kecil */
+      @media (max-width: 768px) {
+        /* Mengatur ukuran gambar pada layar lebih kecil */
+        .product-card img {
+          width: 100%;
+          height: 300px; /* Sesuaikan tinggi agar lebih proporsional pada mobile */
+          object-fit: cover;
+        }
+
+        /* Menampilkan produk dalam satu kolom pada layar kecil */
+        .category-slider .d-flex {
+          flex-direction: column;
+          align-items: center; /* Menjaga card tetap di tengah */
+        }
+
+        .btn-group {
+          display: flex;
+          flex-direction: column; /* Tombol kategori ditata vertikal pada layar kecil */
+          gap: 10px;
+        }
+
+        /* Memastikan kategori button tetap dalam satu kolom */
+        .btn-custom {
+          width: 100%;
+        }
+
+        /* Menyesuaikan margin judul kategori */
+        .category-title {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+      }
+
+      /* Responsif untuk layar lebih kecil dari 576px (smartphone) */
+      @media (max-width: 576px) {
+        .product-card img {
+          height: 250px; /* Sesuaikan ukuran untuk layar smartphone */
+        }
+
+        .category-title {
+          font-size: 1.2rem; /* Mengurangi ukuran font pada layar kecil */
+        }
+
+        .btn-custom {
+          font-size: 0.9rem; /* Mengurangi ukuran font pada tombol */
+        }
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        background-color: #ae7b48;
+        padding: 10px 20px;
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center; /* Menempatkan button di tengah */
+        flex-grow: 1; /* Memastikan button di tengah antara logo dan hamburger */
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 15px; /* Jarak antar tombol */
+      }
+
+      .btn-custom {
+        background-color: #ae7b48;
+        border: 1px solid #ae7b48;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .btn-custom:hover {
+        background-color: #75512e;
+        border-color: #75512e;
+      }
+
+      .btn-custom.active {
+        background-color: #75512e;
+        border-color: #75512e;
+      }
+
+      /* Styling untuk hamburger menu */
+      .hamburger {
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        display: none; /* Menyembunyikan hamburger di layar besar */
+      }
+
+      /* Mobile menu */
+      .mobile-menu {
+        display: none; /* Default: hidden */
+        background-color: #333;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        z-index: 1;
+      }
+
+      .mobile-menu a {
+        color: white;
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        text-align: center;
+      }
+
+      /* Menampilkan menu saat hamburger diklik */
+      .mobile-menu.active {
+        display: block;
+      }
+
+      /* Media Queries untuk Responsivitas */
+      @media (max-width: 768px) {
+        /* Menampilkan hamburger dan menyembunyikan button di layar kecil */
+        .nav-links {
+          display: none;
+        }
+
+        .hamburger {
+          display: block; /* Menampilkan hamburger pada layar kecil */
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        .btn-group {
+          display: block; /* Button di bawah di menu mobile */
+          margin: 10px 0;
+        }
+
+        .btn-custom {
+          width: 100%; /* Membuat tombol kategori lebar penuh di mobile */
+          padding: 15px;
+        }
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        background-color: #ae7b48;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center; /* Menjaga konten navbar tetap di tengah */
+        flex-direction: column; /* Mengatur elemen-elemen dalam navbar menjadi vertikal */
+        align-items: center; /* Memusatkan semua elemen secara horizontal */
+      }
+
+      .nav-content {
+        display: flex;
+        flex-direction: column; /* Mengubah ke kolom agar logo dan kategori tombol vertikal */
+        align-items: center; /* Memusatkan konten dalam nav-content */
+        width: 100%; /* Memastikan elemen navbar memenuhi lebar penuh */
+      }
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px; /* Memberikan sedikit jarak antara logo dan tombol kategori */
+      }
+
+      .logo img {
+        width: 150px;
+        height: auto;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center; /* Menempatkan button kategori di tengah */
+        gap: 15px; /* Jarak antar tombol kategori */
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 15px;
+      }
+
+      .btn-custom {
+        background-color: #ae7b48;
+        border: 1px solid #ae7b48;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .btn-custom:hover {
+        background-color: #75512e;
+        border-color: #75512e;
+      }
+
+      .btn-custom.active {
+        background-color: #75512e;
+        border-color: #75512e;
+      }
+
+      /* Hamburger Menu */
+      .hamburger {
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        display: none;
+      }
+
+      /* Mobile menu */
+      .mobile-menu {
+        display: none;
+        background-color: #ae7b48;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        z-index: 1;
+      }
+
+      .mobile-menu a {
+        color: white;
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        text-align: center;
+      }
+
+      .mobile-menu.active {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        /* Menampilkan hamburger dan menyembunyikan button di layar kecil */
+        .nav-links {
+          display: none;
+        }
+
+        .hamburger {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        .btn-group {
+          display: block;
+          margin: 10px 0;
+        }
+
+        .btn-custom {
+          width: 100%;
+          padding: 15px;
+        }
+      }
+
+      /* Menambahkan jarak antara elemen kategori dan bagian atas layar */
+#kategori {
+  scroll-margin-top: 160px; /* Atur jarak sesuai kebutuhan */
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-content">
+        <div class="logo"><img src="/logo.png" alt="Logo" /></div>
+        <div class="nav-links">
+          <!-- Kategori Button -->
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-custom"
+              onclick="showCategory('blazers')"
+            >
+              Blazers
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom"
+              onclick="showCategory('pants')"
+            >
+              Pants
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom"
+              onclick="showCategory('inner')"
+            >
+              Inner
+            </button>
+          </div>
+        </div>
+        <!-- Hamburger icon -->
+        <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+      </div>
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="btn-group" role="group">
+          <button
+            type="button"
+            class="btn btn-custom"
+            onclick="showCategory('blazers')"
+          >
+            Blazers
+          </button>
+          <button
+            type="button"
+            class="btn btn-custom"
+            onclick="showCategory('pants')"
+          >
+            Pants
+          </button>
+          <button
+            type="button"
+            class="btn btn-custom"
+            onclick="showCategory('inner')"
+          >
+            Inner
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>New Arivals</h1>
+        <p>Temukan koleksi fashion terbaru kami dengan harga terbaik</p>
+        <a href="#kategori">
+          <button class="cta-button">See More</button>
+        </a>
+        
+      </div>
+    </section>
+
+    <!--  -->
+    <h1 id="kategori" style="text-align: center; font-family: 'Arial', sans-serif; font-size: 40px; color: #ae7b48; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-top: 50px;">Category</h1>
+
+
+  
+
+
+      <!-- Blazers Slider -->
+      <div class="category-slider" id="blazers">
+        <h1 style="text-align: center;">Blazer</h1>
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/blazer1.png" alt="Blazer 1" class="img-fluid" />
+            <h5>BLAZER BLISS - GRAY PLAID </h5>
+            <p>(NOW) Rp 137.700</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer2.png" alt="Blazer 2" class="img-fluid" />
+            <h5>CHIC & SLEEK - CEDAR PLAID</h5>
+            <p>Rp 499.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer3.png" alt="Blazer 3" class="img-fluid" />
+            <h5>BLAZER BLISS - WARM PLAID </h5>
+            <p>Rp 375.000</p>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/blazer4.png" alt="Blazer 1" class="img-fluid" />
+            <h5>CHIC & SLEEK - PEANUT PLAID</h5>
+            <p>Rp 475.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer5.png" alt="Blazer 2" class="img-fluid" />
+            <h5>BLAZER BLISS - TAUPE PLAID </h5>
+            <p>(NOW) Rp 149.700</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer6.png" alt="Blazer 3" class="img-fluid" />
+            <h5>CHIC & SLEEK - COFFE PLAID</h5>
+            <p>Rp 550.000</p>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/blazer7.png" alt="Blazer 1" class="img-fluid" />
+            <h5>BLAZER BLISS - BROWN</h5>
+            <p>(NOW) Rp 165.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer8.png" alt="Blazer 2" class="img-fluid" />
+            <h5>CHIC & SLEEK - SPAUCE PLAID</h5>
+            <p>Rp 499.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/blazer9.png" alt="Blazer 3" class="img-fluid" />
+            <h5>BLAZER BLISS - KHAKI PLAID</h5>
+            <p>(NOW) Rp 150.000</p>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- Pants Slider -->
+
+      
+      <div class="category-slider" id="pants">
+        <h1 style="text-align: center;">Pants</h1>
+
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/pants1.png" alt="Pants 1" class="img-fluid" />
+            <h5>REFINED LINES - BLACK</h5>
+            <p>Rp 299.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/pants2.png" alt="Pants 2" class="img-fluid" />
+            <h5>GRACEFUL FIT - WHITE</h5>
+            <p>Rp 249.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/pants3.png" alt="Pants 3" class="img-fluid" />
+            <h5>GRACEFUL FIT - BLACK</h5>
+            <p>Rp 300.000</p>
+          </div>
+        </div>
+
+
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/pants4.png" alt="Pants 1" class="img-fluid" />
+            <h5>GRACEFUL FIT - ESSPRESSO</h5>
+            <p>Rp 249.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/pants5.png" alt="Pants 2" class="img-fluid" />
+            <h5>REFINED LINES - WHITE</h5>
+            <p>Rp 299.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/pants6.png" alt="Pants 3" class="img-fluid" />
+            <h5>REFINED LINES - GRAY</h5>
+            <p>Rp 255.000</p>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/pants7.png" alt="Pants 1" class="img-fluid" />
+            <h5>REFINED LINES - LATTE</h5>
+            <p>Rp 255.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/pants8.png" alt="Pants 2" class="img-fluid" />
+            <h5>GRACEFUL FIT - KHAKI</h5>
+            <p>Rp 250.000</p>
+          </div>
+          
+        </div>
+
+      </div>
+
+      <!-- Inner Slider -->
+      <div class="category-slider" id="inner">
+        <h1 style="text-align: center;">Inner</h1>
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/inner1.png" alt="Inner 1" class="img-fluid" />
+            <h5>SHORT SLEEVE - BLACK</h5>
+            <p>Rp 120.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/inner2.png" alt="Inner 2" class="img-fluid" />
+            <h5>SHORT SLEEVE - WHITE</h5>
+            <p>Rp 120.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/inner3.png" alt="Inner 3" class="img-fluid" />
+            <h5>SHORT SLEEVE - BROWN</h5>
+            <p>Rp 120.000</p>
+          </div>
+        </div>
+
+
+        <div class="d-flex">
+          <div class="product-card">
+            <img src="/inner4.png" alt="Inner 1" class="img-fluid" />
+            <h5>LONG SLEEVE - BLACK</h5>
+            <p>Rp 135.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/inner5.png" alt="Inner 2" class="img-fluid" />
+            <h5>LONG SLEEVE - WHITE</h5>
+            <p>Rp 135.000</p>
+          </div>
+          <div class="product-card">
+            <img src="/inner6.png" alt="Inner 3" class="img-fluid" />
+            <h5>LONG SLEEVE - DARK BROWN</h5>
+            <p>Rp 135.000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Bootstrap JS (Optional for some interactivity) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // JavaScript function to show category and highlight active button
+      function showCategory(category) {
+        // Remove 'active' class from all buttons
+        var buttons = document.querySelectorAll(".btn-custom");
+        buttons.forEach(function (button) {
+          button.classList.remove("active");
+        });
+
+        // Add 'active' class to the clicked button
+        var activeButton = document.querySelector(
+          "button[onclick=\"showCategory('" + category + "')\"]"
+        );
+        activeButton.classList.add("active");
+
+        // Hide all category sliders
+        var sliders = document.querySelectorAll(".category-slider");
+        sliders.forEach(function (slider) {
+          slider.style.display = "none";
+        });
+
+        // Show the selected category
+        var selectedCategory = document.getElementById(category);
+        selectedCategory.style.display = "block";
+      }
+
+      // Optional: Automatically show the first category when the page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        showCategory("blazers"); // Automatically show the "blazers" category
+      });
+    </script>
+
+    <!--  -->
+
+   
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>castuns</h3>
+          <p>
+            Screenshoot the items that you want, and then send it to our contact
+            above.
+          </p>
+        </div>
+
+        <div class="footer-section">
+
+          <div class="logo">
+            <img src="/logo.png" alt="Logo" style="width: 400px; height: auto;">
+          </div>
+          
+
+        </div>
+        <div class="footer-section">
+          <h3>Order Contact To</h3>
+          <ul>
+            <li>
+              <a href="#" style="display: flex; align-items: center;">
+                <img src="telepon.png" alt="Telepon" style="width: 40px; height: 40px; margin-right: 8px;">
+                +62 17649382
+              </a>
+            </li>
+            <li>
+              <a href="#" style="display: flex; align-items: center;">
+                <img src="instagram.png" alt="Instagram" style="width: 40px; height: 40px; margin-right: 8px;">
+                Castuns.id
+              </a>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    function toggleMenu() {
+      const mobileMenu = document.getElementById("mobileMenu");
+      mobileMenu.classList.toggle("active");
+    }
+  </script>
+</html>
