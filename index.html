@@ -628,25 +628,36 @@
             <button
               type="button"
               class="btn btn-custom"
-              onclick="showCategory('blazers')"
+              onclick="navigateToHash('kategori'); showCategory('blazers');"
             >
               Blazers
             </button>
             <button
               type="button"
               class="btn btn-custom"
-              onclick="showCategory('pants')"
+              onclick="navigateToHash('kategori'); showCategory('pants');"
             >
               Pants
             </button>
             <button
               type="button"
               class="btn btn-custom"
-              onclick="showCategory('inner')"
+              onclick="navigateToHash('kategori'); showCategory('inner');"
             >
               Inner
             </button>
           </div>
+          
+          <script>
+            function navigateToHash(hash) {
+              // Hapus hash jika sama untuk memaksa navigasi ulang
+              if (window.location.hash === `#${hash}`) {
+                window.location.hash = ''; // Reset hash
+              }
+              window.location.hash = hash; // Atur hash
+            }
+          </script>
+          
         </div>
         <!-- Hamburger icon -->
         <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
@@ -898,6 +909,16 @@
         showCategory("blazers"); // Automatically show the "blazers" category
       });
     </script>
+
+<script>
+  window.addEventListener('load', () => {
+    if (window.location.hash === '#kategori') {
+      history.replaceState(null, null, window.location.pathname); // Hapus hash
+      window.scrollTo(0, 0); // Scroll ke atas
+    }
+  });
+</script>
+
 
     <!--  -->
 
