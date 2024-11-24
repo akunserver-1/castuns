@@ -650,11 +650,10 @@
           
           <script>
             function navigateToHash(hash) {
-              // Hapus hash jika sama untuk memaksa navigasi ulang
               if (window.location.hash === `#${hash}`) {
-                window.location.hash = ''; // Reset hash
+                window.location.hash = ''; 
               }
-              window.location.hash = hash; // Atur hash
+              window.location.hash = hash; 
             }
           </script>
           
@@ -689,6 +688,42 @@
         </div>
       </div>
     </nav>
+
+    <script>
+function navigateToHash(hash) {
+  if (window.location.hash === `#${hash}`) {
+    window.location.hash = ''; 
+  }
+  window.location.hash = hash; 
+}
+
+document.querySelectorAll('.mobile-menu .btn-custom').forEach(button => {
+  button.addEventListener('click', function() {
+    const category = this.textContent.trim().toLowerCase();
+    navigateToHash('kategori');
+    showCategory(category);
+  });
+});
+
+function showCategory(category) {
+  console.log('Category:', category);
+}
+
+function toggleMenu() {
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+    </script>
+
+    <style>
+      @media (max-width: 768px) {
+        #kategori {
+          scroll-margin-top: 280px; 
+        }
+      }
+      </style>
+    
 
     <!-- Hero Section -->
     <section class="hero">
